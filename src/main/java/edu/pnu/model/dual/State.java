@@ -43,6 +43,7 @@ public class State {
     private List<Transition> connects = new ArrayList<Transition>();
     private CellSpace duality;
     private Map<Object, Object> userData;
+    private List<State> interLayerConnection = new ArrayList<State>();
     
     public State(String id, Point p) {
         this.id = id;
@@ -79,13 +80,7 @@ public class State {
         }
         return neighbors;
     }
-    public void removeTransition(String neighborID){
-    	for(Transition t : connects) {
-            if(t.getOtherState(this).getId().equalsIgnoreCase(neighborID)) {
-            	connects.remove(t);
-            }
-        }
-    }
+    
     public void addConnects(Transition t) {
         connects.add(t);
     }
@@ -103,13 +98,17 @@ public class State {
         return duality;
     }
 
-    public int getNumberofConnects(){
-    	return connects.size();
-    }
     public void setDuality(CellSpace duality) {
         this.duality = duality;
     }
-
+    
+    public void setInterLayerConnection(State other) {
+    	interLayerConnection.add(other);
+    }
+    
+    public List<State> getInterLayerConnection() {
+    	return interLayerConnection;
+    }
     public Map<Object, Object> getUserData() {
         return userData;
     }

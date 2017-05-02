@@ -53,8 +53,10 @@ public class SimpleIndoorGMLHandlerNG extends DefaultHandler {
     
     private boolean pos;
     private boolean desc;
+    private boolean iscontains;
     
     private String id;
+    private String targetState;
     
     private Point point;
     private LineString linestring;
@@ -92,6 +94,19 @@ public class SimpleIndoorGMLHandlerNG extends DefaultHandler {
             pos = true;
         } else if(qName.contains("description")) {
             desc = true;
+        } else if(qName.contains("typeOfTopoExpression")) {
+        	iscontains = true;
+        } else if(qName.contains("interConnects") && iscontains) {
+        	if(targetState == null) {
+        		targetState = attributes.getValue("xlink:href").replaceAll("#", "");
+        	} else {
+        		State target = builder.getState(targetState);
+        		String sid = attributes.getValue("xlink:href").replaceAll("#", "");
+        		State source = builder.getState(sid);
+        	
+        		target.setInterLayerConnection(source);
+        		source.setInterLayerConnection(target);
+        	}
         }
         /*
         else if(qName.contains("IndoorFeatures")) {
@@ -157,6 +172,9 @@ public class SimpleIndoorGMLHandlerNG extends DefaultHandler {
             
         } else if(qName.contains("Solid")) {
             
+        } else if(qName.contains("InterLayerConnection")) {
+        	iscontains = false;
+        	targetState = null;
         }
     }
 
