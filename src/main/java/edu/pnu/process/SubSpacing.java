@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 package edu.pnu.process;
 
 import java.io.IOException;
@@ -37,7 +37,7 @@ import edu.pnu.model.primal.CellSpace;
 
 public class SubSpacing {
 	ArrayList<Stack<Coordinate>> sites = new ArrayList<Stack<Coordinate>>();
-	public SpaceLayer sl;
+	public ArrayList<SpaceLayer> sl;
 	public void makeSpaceLayer() {
 		SimpleIndoorGMLImporter importer;
 
@@ -63,7 +63,7 @@ public class SubSpacing {
 		VoronoiDiagramBuilder vd = new VoronoiDiagramBuilder();
 		ArrayList<Geometry> result = new ArrayList<Geometry>();
 		
-		for(Iterator<CellSpace> i = sl.getCells().iterator();i.hasNext();){
+		for(Iterator<CellSpace> i = sl.get(0).getCells().iterator();i.hasNext();){
 			CellSpace cell = i.next();
 			String usage = (String) cell.getUserData().get("USAGE");
 			if(usage.equalsIgnoreCase("Corridor")) {
@@ -125,21 +125,6 @@ public class SubSpacing {
 	public ArrayList<Stack<Coordinate>> getSites() {
 		return sites;
 	}
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
-		
-			
-		
-            
-		
-		// create a root polygon which limits the voronoi diagram.
-		// here it is just a rectangle.
-
-		
-
-		// create 100 points (sites) and set random positions in the rectangle defined above.
-		
-	}
 
 }

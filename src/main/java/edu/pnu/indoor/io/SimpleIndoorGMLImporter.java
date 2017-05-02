@@ -26,6 +26,7 @@ package edu.pnu.indoor.io;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -56,15 +57,15 @@ public class SimpleIndoorGMLImporter {
         builder = handler.getSpaceBuilder();
     }
     
-    public SpaceLayer getSpaceLayer() {
-        return builder.buildSpaceLayer();
+    public ArrayList<SpaceLayer> getSpaceLayer() {
+        return builder.getSpaceLayers();
     }
     
     public static void main(String[] args) {
         try {
             SimpleIndoorGMLImporter importer = new SimpleIndoorGMLImporter("src/main/resources/SAMPLE_DATA_LWM_2D.gml");
             
-            SpaceLayer l = importer.getSpaceLayer();
+            ArrayList<SpaceLayer> l = importer.getSpaceLayer();
             
             System.out.println(l);
         } catch (Exception e) {

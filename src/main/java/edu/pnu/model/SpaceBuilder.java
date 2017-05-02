@@ -24,12 +24,14 @@
  */
 package edu.pnu.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 import org.apache.log4j.Logger;
 
@@ -55,14 +57,15 @@ public class SpaceBuilder {
     private Map<String, State> statesMap;
     private Map<String, Transition> transitionMap;
     private Map<String, CellSpace> cellspaceMap;
-    
+    private ArrayList<Map<String, State>> statesMaps;
     /* entrances set */
     private Set<String> entrances = new HashSet<String>();
-    
+    private ArrayList<SpaceLayer> spacelayers = new ArrayList<SpaceLayer>();
     public SpaceBuilder() {
         statesMap = new HashMap<String, State>();
         transitionMap = new HashMap<String, Transition>();
         cellspaceMap = new HashMap<String, CellSpace>();
+        statesMaps = new ArrayList<Map<String, State>>();
     }
     
     public boolean hasState(String id) {
@@ -71,6 +74,15 @@ public class SpaceBuilder {
     
     public State getState(String id) {
         return statesMap.get(id);
+    }
+    
+    public State getInterState(String id) {
+        for(int i = 0;i < statesMaps.size();i++) {
+        	if(statesMaps.get(i).containsKey(id)) {
+        		return statesMaps.get(i).get(id);
+        	}
+        }
+        return null;
     }
     
     public boolean hasTransition(String id) {
@@ -175,8 +187,10 @@ public class SpaceBuilder {
         transitionMap.put(id, t);
         return true;
     }
-    
-    public SpaceLayer buildSpaceLayer() {
+    public ArrayList<SpaceLayer> getSpaceLayers() {
+    	return spacelayers;
+    }
+    public void buildSpaceLayer() {
         SpaceLayer sl = new SpaceLayer();
         
         Collection<State> nodes = statesMap.values();
@@ -201,7 +215,12 @@ public class SpaceBuilder {
         }
         
         sl.buildIndex();
+        spacelayers.add(sl);
         
-        return sl;
+        statesMaps.add(statesMap);
+        statesMap = new HashMap<String, State>();
+        transitionMap = new HashMap<String, Transition>();
+        cellspaceMap = new HashMap<String, CellSpace>();
+        
     }
 }

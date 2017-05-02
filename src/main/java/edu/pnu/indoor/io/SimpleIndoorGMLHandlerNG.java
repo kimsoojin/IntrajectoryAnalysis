@@ -101,9 +101,9 @@ public class SimpleIndoorGMLHandlerNG extends DefaultHandler {
         	if(targetState == null) {
         		targetState = attributes.getValue("xlink:href").replaceAll("#", "");
         	} else {
-        		State target = builder.getState(targetState);
+        		State target = builder.getInterState(targetState);
         		String sid = attributes.getValue("xlink:href").replaceAll("#", "");
-        		State source = builder.getState(sid);
+        		State source = builder.getInterState(sid);
         	
         		target.setInterLayerConnection(source);
         		source.setInterLayerConnection(target);
@@ -173,12 +173,11 @@ public class SimpleIndoorGMLHandlerNG extends DefaultHandler {
             
         } else if(qName.contains("Solid")) {
             
-        } else if(qName.contains("InterLayerConnection")) {
+        } else if(qName.contains("spaceLayerMember")) {
+        	builder.buildSpaceLayer();
+        }else if(qName.contains("InterLayerConnection")) {
         	iscontains = false;
         	targetState = null;
-
-    
-    
         }
     }
 

@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -23,14 +24,14 @@ import edu.pnu.model.dual.Transition;
 import edu.pnu.model.primal.CellSpace;
 
 public class NaviGraph {
-	private static SpaceLayer layer;
+	private static ArrayList<SpaceLayer> layer;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		SimpleIndoorGMLImporter importer;
 		try {
 			importer = new SimpleIndoorGMLImporter("src/main/resources/SAMPLE_DATA_LWM_2D.gml");
 			layer = importer.getSpaceLayer();
-			CellSpace cs = layer.getCellSpace("C931");
+			CellSpace cs = layer.get(0).getCellSpace("C931");
 			Coordinate[] c = cs.getGeometry2D().getCoordinates();
 			String sql = "SELECT st_astext(ST_ApproximateMedialAxis(ST_GeomFromText('POLYGON ((";
 			sql += c[0].x + " " + c[0].y;
