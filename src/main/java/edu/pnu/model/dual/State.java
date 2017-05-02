@@ -43,6 +43,7 @@ public class State {
     private List<Transition> connects = new ArrayList<Transition>();
     private CellSpace duality;
     private Map<Object, Object> userData;
+
     private List<State> interLayerConnection = new ArrayList<State>();
     
     public State(String id, Point p) {
@@ -109,6 +110,7 @@ public class State {
     public List<State> getInterLayerConnection() {
     	return interLayerConnection;
     }
+
     public Map<Object, Object> getUserData() {
         return userData;
     }

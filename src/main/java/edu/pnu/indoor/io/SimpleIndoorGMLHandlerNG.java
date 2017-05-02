@@ -53,6 +53,7 @@ public class SimpleIndoorGMLHandlerNG extends DefaultHandler {
     
     private boolean pos;
     private boolean desc;
+
     private boolean iscontains;
     
     private String id;
@@ -175,6 +176,9 @@ public class SimpleIndoorGMLHandlerNG extends DefaultHandler {
         } else if(qName.contains("InterLayerConnection")) {
         	iscontains = false;
         	targetState = null;
+
+    
+    
         }
     }
 
