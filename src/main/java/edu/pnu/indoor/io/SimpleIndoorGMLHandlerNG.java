@@ -95,9 +95,7 @@ public class SimpleIndoorGMLHandlerNG extends DefaultHandler {
             pos = true;
         } else if(qName.contains("description")) {
             desc = true;
-        } else if(qName.contains("typeOfTopoExpression")) {
-        	iscontains = true;
-        } else if(qName.contains("interConnects") && iscontains) {
+        } else if(qName.contains("interConnects")) {
         	if(targetState == null) {
         		targetState = attributes.getValue("xlink:href").replaceAll("#", "");
         	} else {
@@ -130,6 +128,7 @@ public class SimpleIndoorGMLHandlerNG extends DefaultHandler {
             builder.addState(s);
             neighbors.clear();
             duality = null;
+            userData = null;
             
         } else if(qName.contains("Transition")) {
             //Transition t = new Transition(id, l);
@@ -150,6 +149,7 @@ public class SimpleIndoorGMLHandlerNG extends DefaultHandler {
         } else if(qName.contains("CellSpace") && !qName.equalsIgnoreCase("CellSpaceBoundary")) {
             CellSpace c = new CellSpace(id, polygon, null, null, userData);
             builder.addCellSpace(c);
+            userData = null;
         /* Geometries */    
         } else if(qName.contains("Point")) {
             point = geomFac.createPoint(coords.get(0));
@@ -176,7 +176,6 @@ public class SimpleIndoorGMLHandlerNG extends DefaultHandler {
         } else if(qName.contains("spaceLayerMember")) {
         	builder.buildSpaceLayer();
         }else if(qName.contains("InterLayerConnection")) {
-        	iscontains = false;
         	targetState = null;
         }
     }
