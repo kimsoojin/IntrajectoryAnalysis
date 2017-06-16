@@ -120,7 +120,7 @@ env.getWidth(), drawingRect.getHeight() / env.getHeight());
 
         SubSpacing sub = new SubSpacing();
         sub.makeSpaceLayer();
-        ArrayList<Geometry> collection = sub.getVoronoi();
+        /*ArrayList<Geometry> collection = sub.getVoronoi(sub.sl.get(0).getCellSpace(id));
         //for(int i = 0;i < collection.size();i++) {
         	Geometry geom = collection.get(0);
         	for (int j = 0; j < geom.getNumGeometries(); j++) {
@@ -132,6 +132,6 @@ env.getWidth(), drawingRect.getHeight() / env.getHeight());
         
         
 
-        frame.setVisible(true); 
+        frame.setVisible(true); */
     } 
 } 

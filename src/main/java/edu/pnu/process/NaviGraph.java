@@ -115,7 +115,7 @@ public class NaviGraph {
         
         
 	}
-	private static Connection getConnection(String user, String password, String url) throws SQLException {
+	public static Connection getConnection(String user, String password, String url) throws SQLException {
         Connection cx;
         if(user != null) {
             cx = DriverManager.getConnection(url, user, password);
