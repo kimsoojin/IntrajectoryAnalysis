@@ -14,8 +14,10 @@ import org.xml.sax.SAXException;
 import edu.pnu.indoor.io.IndoorTrajectoryImporter;
 import edu.pnu.indoor.io.SimpleIndoorGMLImporter;
 import edu.pnu.model.SpaceLayer;
+import edu.pnu.model.dual.State;
 import edu.pnu.model.trajectory.IndoorMovingObject;
 import edu.pnu.model.trajectory.IndoorTrajectory;
+import edu.pnu.util.StateDijkstraPathFinder;
 
 public class Similarity {
 	
@@ -29,12 +31,22 @@ public class Similarity {
 	public double calSimilarity(IndoorTrajectory t1, IndoorTrajectory t2) {
 		double similarity = 0;
 		int[] LCSS = getLCSS(t1.getCellSequence(), t2.getCellSequence());
+		double st1 = t1.getintime(LCSS[0]);
+		double st2 = t2.getintime(LCSS[1]);
+		if(st1 > st2) {
+			t2.shiftTime(st1 - st2);
+		}else {
+			t1.shiftTime(st2 - st1);
+		}
 		similarity = LCSS[2];
 		return similarity;
 	}
 	public double calIndoorDistance(String cellid_1, String cellid_2){
 		double distance = 0;
-	
+		StateDijkstraPathFinder finder = new StateDijkstraPathFinder(l.get(0));
+		State s1 = l.get(0).getCellSpace(cellid_1).getDuality();
+		State s2 = l.get(0).getCellSpace(cellid_2).getDuality();
+		distance = finder.getShortestPath(s1, s2);
 		return distance;
 	}
 	public int[] getLCSS(List<String> t1, List<String> t2){

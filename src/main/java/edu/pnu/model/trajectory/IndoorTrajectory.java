@@ -18,6 +18,12 @@ public class IndoorTrajectory {
 		intime.add(in);
 		outtime.add(out);
 	}
+	public void shiftTime(double offset) {
+		for(int i = 0;i < intime.size();i++) {
+			intime.set(i, intime.get(i) + offset);
+			outtime.set(i, outtime.get(i) + offset);
+		}
+	}
 	public String toString() {
 		String sequence = "";
 		for(int i = 0;i < cellsequence.size();i++) {
@@ -34,12 +40,28 @@ public class IndoorTrajectory {
 	public List<String> getCellSequence() {
 		return cellsequence;
 	}
-	public String findCellbyTime(double time) {
+	public double getintime(int i) {
+		return intime.get(i);
+	}
+	public String findCellbyTimeInterval(double itime, double otime) {
+		double max = 0;
+		String cell = "";
     	for(int i = 0;i<intime.size();i++) {
-    		if(time > intime.get(i)) {
-    			return cellsequence.get(i);
+    		if(itime < outtime.get(i)) {
+    			if(max == 0 && otime <= outtime.get(i)) {
+    				max = otime - itime;
+    				cell = cellsequence.get(i);
+    				break;
+    			}else {
+    				double interval = outtime.get(i) - Math.max(itime, intime.get(i));
+    				if(max < interval) {
+    					max = interval;
+    					cell = cellsequence.get(i);
+    				}
+    			}
+    		
     		}
     	}
-    	return "";
+    	return cell;
     }
 }
